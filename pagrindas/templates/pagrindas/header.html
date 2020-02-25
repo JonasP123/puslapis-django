@@ -1,0 +1,69 @@
+<head>
+	{% load static %}
+	<!-- Compiled and minified CSS -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+  <link rel="stylesheet" href="{% static 'pagrindas/css/materialize.css' %}">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+
+<body>
+
+	<nav >
+      <div class="container">
+      <div class="nav-wrapper blue accent-1 ">
+        <a href="/" class="brand-logo">Logo</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down blue accent-1 ">
+          <li><a href="/">Home</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="/account">{{user.username}}</a></li>
+            <li><a href="/logout">Atsijungti</a></li>
+          {% else %}
+            <li><a href="/register">Registracija</a></li>
+            <li><a href="/login">Prisijungti</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      </div>
+  </nav>
+
+  {% if messages %}
+      {% for message in messages %}
+          <script>M.toast({html: '{{message}}'})</script>
+      {% endfor %}
+  {% endif %}
+
+	<div class="container">
+    
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <br>
+  <footer class="page-footer">
+    
+    <div class="footer-copyright">
+      <div class="container">
+      © 2020 Copyright 
+      <a class="grey-text text-lighten-4 right" href="#!">Svarbios nuorodos</a>
+      </div>
+    </div>
+  </footer>
+</body>

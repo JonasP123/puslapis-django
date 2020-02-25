@@ -1,0 +1,52 @@
+{% extends "pagrindas/header.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<h1>Orų prognozių puslapis</h1>
+
+<br>
+<br>
+
+<div class="row">
+	<div class="col s4" >
+        <form style="display:inline" action="/temperatura/" method="post">{% csrf_token %}
+            <input type="text" name="content" placeholder="Įveskite miesto pavadinimą">
+            <input type="submit" name="Ieškoti" value="Ieškoti" class="btn blue accent-1">
+        </form>
+    </div>
+</div>
+<div class="row z-depth-1">
+    
+  	<div class="col s4">
+        <ul>
+            <li style="font-size:30px">{{miestas}}</li>
+            <li>Artimiausios valandos prognozė</li>
+            <li><p style="font-size:300%;color:red;font-family:verdana">{{temperatura}}&#176;</p></li>
+        </ul>
+  	</div>
+  	<div class="col s4">
+        <ul>
+            <li style="font-size:30px">{{oro_salygos}}</li>
+            <!-- <li>Dabartinė informacija: {{miestas}}</li> -->
+            <!-- <li>Artimiausios prognozės laikas: {{laikas}}</li> -->
+            <!-- <li>Temperatūra: {{temperatura}} &#8451;</li> -->
+            <li>Vėjas: {{vejas}} m/s</li>
+            <li>Vėjo gūsiai: {{vejo_gusiai}} m/s</li>
+            <li>Vėjo kryptis: {{vejo_kryptis}}</li>
+            <li>Debesuotumas: {{debesuotumas}} %</li>
+            <li>Slėgis: {{slegis}} hPa</li>
+            <li>Kritulių kiekis: {{krituliu_kiekis}} mm</li>
+        </ul>
+ 	</div>
+  	<div class="col s4">
+        <img src="{% static 'pagrindas/images/man-walking-dog.jpg' %}" alt="Nice picture" style="width:400px">
+        
+  	</div>
+
+</div>
+
+    
+
+{% endblock %}

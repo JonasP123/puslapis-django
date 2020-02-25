@@ -1,0 +1,11 @@
+{% extends "pagrindas/header.html" %}
+
+{% block content %}
+	<form method="POST">
+		{% csrf_token %}
+		{{form.as_p}}
+		<button class="btn blue accent-1"  type="submit">Prisijungti</button>
+	</form>
+	<br>
+	Jeigu neturite account'o, jums reikia <a href="/register">prisiregistruoti</a>.
+{% endblock %}
