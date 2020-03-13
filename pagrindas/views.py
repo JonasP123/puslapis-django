@@ -6,6 +6,10 @@ from django.contrib import messages
 import requests
 from datetime import datetime
 from unidecode import unidecode
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+from io import BytesIO
+import base64
 
 # Create your views here.
 def homepage(request):
@@ -71,6 +75,21 @@ def temperaturaView(request):
         turinys = r.json()
         miestas = turinys['place']['name']
         prognozes = turinys['forecastTimestamps']
+        laikas = ''
+        temperatura = ''
+        vejas = ''
+        vejo_gusiai = ''
+        vejo_kryptis = ''
+        debesuotumas = ''
+        slegis = ''
+        krituliu_kiekis = ''
+        oro_salygos = ''
+        dabartinis_laikas = ''
+        x = []
+        y = []
+        for prognoze in prognozes[:48]:
+            x.append(prognoze['forecastTimeUtc'])
+            y.append(prognoze['airTemperature'])
         for prognoze in prognozes:
             dabartinis_laikas = str(datetime.now())
             if dabartinis_laikas < prognoze['forecastTimeUtc']:
@@ -143,18 +162,36 @@ def temperaturaView(request):
                 if oro_salygos == 'fog':
                     oro_salygos = 'rūkas'
                 oro_salygos = oro_salygos[0].upper()+oro_salygos[1:]
-                return render(request,
-                              'pagrindas/home.html',
-                              {'miestas': miestas,
-                               'laikas': laikas,
-                               'temperatura': temperatura,
-                               'vejas': vejas,
-                               'vejo_gusiai': vejo_gusiai,
-                               'vejo_kryptis': vejo_kryptis,
-                               'debesuotumas': debesuotumas,
-                               'slegis': slegis,
-                               'krituliu_kiekis': krituliu_kiekis,
-                               'oro_salygos': oro_salygos})
+        fig = plt.figure(figsize = (10, 4))
+        ax1 = plt.subplot2grid((1, 1), (0, 0))
+        ax1.xaxis.set_major_locator(mticker.MaxNLocator(8))
+        plt.xticks(rotation=15)
+        ax1.grid(True)
+        ax1.plot(x, y, label='Temperatūra, °C',  marker='o')
+        ax1.set_xlim(x[0], x[-1])
+        plt.legend()
+        #plt.subplots_adjust(left=0.1, right=0.9, top=0.9, bottom=0.21)
+        plt.tight_layout()
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
+        image_png = buffer.getvalue()
+        buffer.close()
+        graphic = base64.b64encode(image_png)
+        graphic = graphic.decode('utf-8')
+        return render(request,
+                      'pagrindas/home.html',
+                      {'miestas': miestas,
+                       'laikas': laikas,
+                       'temperatura': temperatura,
+                       'vejas': vejas,
+                       'vejo_gusiai': vejo_gusiai,
+                       'vejo_kryptis': vejo_kryptis,
+                       'debesuotumas': debesuotumas,
+                       'slegis': slegis,
+                       'krituliu_kiekis': krituliu_kiekis,
+                       'oro_salygos': oro_salygos,
+                       'graphic': graphic})
     except:
         messages.error(request, 'Neegzistuojantis miestas, bandyk dar kartą')
         return render(request=request,
