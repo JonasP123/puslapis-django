@@ -6,7 +6,7 @@ To see this page you would need Python3 and a few additionl modules. Additional 
 ```shell
 (venv)> pip install -r requirements.txt
 ```
-Run the server from the `puslapis-django` folder with the 'python manage.py runserver' command. For example:
+Run the server from the `puslapis-django` folder with the `python manage.py runserver` command. For example:
 ```shell
 (venv)> D:\Python_tests\venv\puslapis-django>python manage.py runserver
 ```
